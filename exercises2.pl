@@ -176,3 +176,99 @@ separate3(Int, Pos, Neg) :-
                 Neg = [H|N1], separate3(T, Pos, N1)
         )
     ).
+
+% This is my version of member/2
+contains([H|_], H).
+contains([_|T], X) :- contains(T, X).
+
+% First (very bad) attempt 
+
+% included_candidates(Candidates, Excluded, Included) :-
+% (
+%     Excluded = [] ->
+%     Candidates = Included;
+%     (
+%         Candidates = [] ->
+%         Included = [];
+%         (
+%             Candidates = [H|C], 
+%             not(contains(Excluded, H)) ->
+%             Included = [H|I],
+%             included_candidates(C, Excluded, I)   
+%         )
+%     )
+% ).
+
+% Second attempt (that also doesn't exactly work)
+
+% included_candidates1(L, [], L).
+% included_candidates1([], _, []).
+% included_candidates1([H|C], Excluded, [H|I]) :- \+ contains(Excluded, H), included_candidates1(C, Excluded, I).
+% included_candidates1([H|C], Excluded, Included) :- contains(Excluded, H), included_candidates1(C, Excluded, Included).
+
+% dif_conj has the same behavior that included_candidates should have, basically.
+  
+% ?- dif_conj0([1,2,3], [1], I).
+% I = [2, 3] ;
+% false.
+
+% ?- dif_conj1([1,2,3], [1], I).
+% I = [2, 3] ;
+% I = [2] ;
+% I = [3] ;
+% I = [].
+
+% ?- dif_conj2([1,2,3], [1], I).
+% I = [2, 3].
+
+% ?- dif_conj3([1,2,3], [1], I).
+% I = [2, 3].
+
+dif_conj0([], _, []) :- !.
+dif_conj0(C, [], C) :- !.
+dif_conj0([H|T], C, [H|T2]) :- \+ contains(C, H), dif_conj0(T, C, T2).
+dif_conj0([H|T], C, Dif) :- contains(C, H), dif_conj0(T, C, Dif).
+
+dif_conj1([], _, []) :- !.
+dif_conj1(C, [], C) :- !.
+dif_conj1([H|T], C, [H|T2]) :- \+ contains(C, H), dif_conj1(T, C, T2).
+dif_conj1([H|T], C, Dif) :- dif_conj1(T, C, Dif).
+
+dif_conj2([], _, []) :- !.
+dif_conj2(C, [], C) :- !.
+dif_conj2([H|T], C, [H|T2]) :- \+ contains(C, H), !, dif_conj2(T, C, T2).
+dif_conj2([H|T], C, Dif) :- dif_conj2(T, C, Dif).
+
+dif_conj3([], _, []) :- !.
+dif_conj3([Item | Conj1], Conj2, [Item | Dif]) :-
+    \+ member(Item, Conj2), !,
+    dif_conj3(Conj1, Conj2, Dif).
+dif_conj3([_ | Conj1], Conj2, Dif) :-
+    dif_conj3(Conj1, Conj2, Dif).
+
+% ?- unificavel0([X, b, t(Y)], t(a), L).
+% X = t(a),
+% Y = a,
+% L = [t(a), t(a)] ;
+% false.
+
+unificavel0([], _, []).
+unificavel0([H|T], Termo, [H|T2]) :- H = Termo, unificavel0(T, Termo, T2).
+unificavel0([H|T], Termo, L) :- H \= Termo, unificavel0(T, Termo, L).
+
+% ?- unificavel1([X, b, t(Y)], t(a), L).
+% L = [X, t(Y)] ;
+% L = [X] ;
+% L = [t(Y)] ;
+% L = [].
+
+unificavel1([], _, []).
+unificavel1([H|T], Termo, [H|T2]) :- unifiable(H, Termo, _), unificavel1(T, Termo, T2).
+unificavel1([_|T], Termo, L) :- unificavel1(T, Termo, L).
+
+% ?- unificavel2([X, b, t(Y)], t(a), L).
+% L = [X, t(Y)].
+
+unificavel2([], _, []).
+unificavel2([H|T], Termo, [H|T2]) :- unifiable(H, Termo, _), !, unificavel2(T, Termo, T2).
+unificavel2([_|T], Termo, L) :- unificavel2(T, Termo, L).

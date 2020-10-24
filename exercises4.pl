@@ -181,8 +181,9 @@ faz_lista(Lista):-
 
 color_map_2 :-
     faz_lista(L),
-    cores(L),
-    write(L).
+    findall(Pais/Cor,member(Pais, L),ListaPaisCor),
+    cores(ListaPaisCor),
+    write(ListaPaisCor), nl.
 
 max(X,Y,Z):- ( 
     X > Y ->
@@ -202,13 +203,26 @@ list_max1([H|T], Acum, Max) :- Acum1 is max(Acum, H), list_max1(T, Acum1, Max).
 
 measure_color_map :-
     statistics(walltime, [TimeSinceStart | [TimeSinceLastCall]]),
-    color_map(),
+    color_map,
     statistics(walltime, [NewTimeSinceStart | [ExecutionTime]]),
     write('Color Map -- Execution took '), write(ExecutionTime), write(' ms.'), nl.
 
 measure_faz_lista :-
     statistics(walltime, [TimeSinceStart | [TimeSinceLastCall]]),
-    faz_lista(Lista),
-    write(Lista),
+    color_map_2,
     statistics(walltime, [NewTimeSinceStart | [ExecutionTime]]),
     write('Faz Lista -- Execution took '), write(ExecutionTime), write(' ms.'), nl.
+
+% using the predicates above I'm not being able to measure or see a difference 
+% of runtime between the 2 approachs that find a coloring for the europe map.
+% I'm not sure if I'm measuring in the right way. 
+
+% ?- measure_faz_lista.
+% [dinamarca/amarelo,luxemburgo/verde,belgica/vermelho,holanda/amarelo,alemanha/azul,suica/vermelho,italia/azul,portugal/amarelo,espanha/vermelho,andorra/azul,franca/amarelo]
+% Faz Lista -- Execution took 0 ms.
+% true .
+
+% ?- measure_color_map.
+% [andorra/azul,portugal/azul,espanha/amarelo,franca/verde,italia/azul,alemanha/vermelho,suica/amarelo,luxemburgo/amarelo,belgica/azul,holanda/amarelo,dinamarca/amarelo]
+% Color Map -- Execution took 0 ms.
+% true .

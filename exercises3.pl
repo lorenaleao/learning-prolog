@@ -105,3 +105,136 @@ subst_lista(Sub,[Termo|Termos],Sub1,[Termo1|Termos1]):-
 %    Exit: (11) 2*t*f(t)=..[*, 2*t, f(t)] ? creep
 %    Exit: (10) substituir(sin(x), 2*sin(x)*f(sin(x)), t, 2*t*f(t)) ? creep
 % F = 2*t*f(t).
+
+tabuadas:-
+    L = [0,1,2,3,4,5,6,7,8,9],
+    member(X,L),
+    member(Y,L),
+    Z is X*Y,
+    assertz(produto(X,Y,Z)),
+    fail.
+tabuadas :- !.
+
+repete.
+repete :- repete.
+
+ecoa:-
+    repete,
+    read(X),
+    ( X == pare,!
+    ; write(X),nl,
+    fail
+    ).
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%% Exercises %%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Fail attempts
+
+% insere_li(Item, [L|X]) :- X = [Item|Y].
+% insere_li(Item, [L|X]) :- append(IL, [Item|Y], IL).
+% insere_li(Item, [L|X]).
+% insere_li(Item, [_|X]) :- =(X, [Item|_]).
+
+% [trace]  ?- LI = [a,b,c|Y], insere_li(d, LI).
+%    Call: (11) _13966=[a, b, c|_13962] ? creep
+%    Exit: (11) [a, b, c|_13962]=[a, b, c|_13962] ? creep
+%    Call: (11) insere_li(d, [a, b, c|_13962]) ? creep
+%    Call: (12) [b, c|_13962]=[d|_14626] ? creep
+%    Fail: (12) [b, c|_13962]=[d|_14626] ? creep
+%    Fail: (11) insere_li(d, [a, b, c|_13962]) ? creep
+% false.
+
+% The problem is that Prolog considers _ as just the head of the list 
+% and not the entire list without the logic variable :/ 
+% How do I represent that -- a general incomplete list?
+% Maybe this could be easir done with difference lists?!
+% But we can also traverse the list and insert the item in the end:
+
+insert_il(X, L) :- 
+    var(L), !, L = [X|_]. %found end of list, add element
+insert_il(X, [_|T]):- insert_il(X, T). % traverse input list to reach end/X
+
+% ?- LI = [a,b,c|Y], insert_il(d, LI).
+% LI = [a, b, c, d|_6668],
+% Y = [d|_6668].
+
+aterrado(Term) :-
+    Term =.. [F|Args],
+    atom(F),
+    aterrado_list(Args).
+
+aterrado_list([]).
+aterrado_list([H|T]) :-
+    \+ var(H),
+    H =.. [F|Args],
+    atom(F),
+    aterrado_list(Args).
+
+subsume(Term1,Term2) :- unifiable(Term1, Term2, _).
+
+delete_tabuada :-
+    abolish(produto/3).
+
+delete_0_tabuada :-
+    L = [1,2,3,4,5,6,7,8,9],
+    member(Y,L),
+    retract(produto(0,Y,0)),
+    fail.
+delete_0_tabuada :-
+    L = [1,2,3,4,5,6,7,8,9],
+    member(X,L),
+    retract(produto(X,0,0)),
+    fail.
+delete_0_tabuada :-
+    retract(produto(0,0,0)).
+
+my_copy_term(Term, Copy) :-
+    var(Term) -> var(Copy).
+my_copy_term(Term, Copy) :-
+    Term =.. [F|Args],
+    R =.. Args,
+    my_copy_term(R, CopyR),
+    CopyR =.. L,
+    Copy =.. [F|L].
+
+% my_copy_term(Term, Copy) :-
+%     Copy = Term,
+%     retract(Term),
+%     asserta(Copy).
+
+% copy_term(In, Out)
+
+% :- dynamic insect/1.
+% insect(ant).
+% insect(bee).
+
+% ?- (   retract(insect(I)),
+%        writeln(I),
+%        retract(insect(bee)),
+%        fail
+%        ;   true
+%     ).
+%     ant ;
+%     bee.
+
+para(F,F,F):- !.
+para(I,I,F):- 
+    I < F.
+para(C,I,F):-
+    I < F,
+    N is I+1,
+    para(C,N,F).
+
+write_line(C) :-
+    para(C1,1,C), write(*), fail.
+write_line(C).
+
+triangle(N) :-
+    para(C,1,N), S is N-C, tab(S), 
+    A is 2*C-1, write_line(A),
+    tab(S),
+    nl, fail.
+triangle(N).
+    

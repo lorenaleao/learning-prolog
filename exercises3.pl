@@ -1,3 +1,5 @@
+:-dynamic(letra/2).
+
 conta2(_,[],0).
 conta2(A,[B|L],C):-
     A == B,
@@ -126,6 +128,57 @@ ecoa:-
     fail
     ).
 
+letra(a,vogal).
+letra(b,cons).
+letra(c,cons).
+letra(c,cons).
+letra(d,cons).
+letra(e,vogal).
+letra(f,cons).
+letra(f,cons).
+letra(f,cons).
+letra(f,cons).
+letra(g,cons).
+letra(g,cons).
+letra(g,cons).
+letra(h,cons).
+letra(h,cons).
+letra(i,vogal).
+letra(i,vogal).
+letra(i,vogal).
+letra(o,vogal).
+letra(u,vogal).
+letra(u,vogal).
+
+find_vowels :-
+    bagof(Letra,letra(Letra,vogal),Letras),
+    write(Letras), nl.
+
+find_all_letters_0 :- 
+    bagof(Letra,letra(Letra,_),Letras),
+    write(Letras), nl.
+
+% ?- find_all_letters_0.
+% [b,c,c,d,f,f,f,f,g,g,g,h,h]
+% true ;
+% [a,e,i,i,i,o,u,u]
+% true.
+
+% Mas o resultado não foi o que esperávamos, pois as soluções
+% foram dadas pela volta para trás, separadas para cada valor da
+% variável ignorada.
+% Para evitar isso, utilizamos o operador ^/2, de quantificação
+% existencial, juntamente com a(s) variável(is) que queremos
+% ignorar, justapostos ao Padrão:
+
+find_all_letters_1 :-
+    bagof(Letra,Tipo^letra(Letra,Tipo),Letras),
+    write(Letras), nl.
+
+% ?- find_all_letters_1.
+% [a,b,c,c,d,e,f,f,f,f,g,g,g,h,h,i,i,i,o,u,u]
+% true.
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%% Exercises %%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -218,6 +271,49 @@ my_copy_term(Term, Copy) :-
 %     ).
 %     ant ;
 %     bee.
+
+% subset(Set, SubsetsList) :-
+%     bagof(, SubsetsList).
+
+bratko_copy_term(Term,Copy):-
+    bagof(X,X=Term,[Copy]).
+
+% Some executions:
+
+% ?- bratko_copy_term(f(Y), Copy).
+% Copy = f(Y).
+
+% ?- bratko_copy_term(a, Copy).
+% Copy = a.
+
+% ?- bratko_copy_term(X, Copy).
+% X = Copy.
+
+% ?- bratko_copy_term(f(a, Y), Copy).
+% Copy = f(a, Y).
+
+%%%%
+
+% this is not correct yet:
+% correct_bratko_copy_term(Term,Copy):-
+%     bagof(X,Term^X=Term,[Copy]).
+
+% [trace]  ?- correct_bratko_copy_term(f(a, Y), Copy).
+%    Call: (10) correct_bratko_copy_term(f(a, _73232), _73238) ? creep
+% ^  Call: (11) bagof(_73698, f(a, _73232)^_73698=f(a, _73232), [_73238]) ? creep
+% ^  Fail: (11) bagof(_73698, user:(f(a, _73232)^_73698=f(a, _73232)), [_73238]) ? creep
+%    Fail: (10) correct_bratko_copy_term(f(a, _73232), _73238) ? creep
+% false.
+
+% [trace]  ?- bratko_copy_term(f(a, Y), Copy).
+%    Call: (10) bratko_copy_term(f(a, _74632), _74638) ? creep
+% ^  Call: (11) bagof(_75098, _75098=f(a, _74632), [_74638]) ? creep
+% ^  Exit: (11) bagof(_75098, user:(_75098=f(a, _74632)), [f(a, _74632)]) ? creep
+%    Exit: (10) bratko_copy_term(f(a, _74632), f(a, _74632)) ? creep
+% Copy = f(a, Y).
+
+findall_copy_term(Term, Copy) :-
+    findall(X,X=Term,[Copy]).
 
 para(F,F,F):- !.
 para(I,I,F):- 

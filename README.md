@@ -9,7 +9,7 @@ Class # | # of exercises | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | %
 **3** | 10 | :heavy_check_mark: | :heavy_exclamation_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_exclamation_mark: | :zap: | :zap: | :radio_button: | :heavy_exclamation_mark:
 **4** | 6 | :heavy_exclamation_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | |  | |  | | | | | | |  
 **5** | 6 | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :radio_button:	  | :heavy_check_mark: | :heavy_check_mark: |  | | | |  
-**6** | 10 |  | |  | | | | | | |  
+**6** | 10 |  | :heavy_check_mark: | :heavy_check_mark: | | :heavy_check_mark: | :heavy_check_mark: | | | | :heavy_check_mark: 
 **7** | 5 | :heavy_check_mark: | :heavy_check_mark: | :question: | :radio_button: | :construction: | | | | | |  
 **8** | 1 |  | |  | | | | | | |  
 **9** | 2 |  | |  | | | | | | |  

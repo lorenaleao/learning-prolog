@@ -12,7 +12,7 @@ Class # | # of exercises | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | %
 **6** | 10 |  | :heavy_check_mark: | :heavy_check_mark: | | :heavy_check_mark: | :heavy_check_mark: | :construction: | | :radio_button: | :heavy_check_mark: 
 **7** | 5 | :heavy_check_mark: | :heavy_check_mark: | :question: | :radio_button: | :construction: | | | | | |  
 **8** | 1 |  | |  | | | | | | |  
-**9** | 2 |  | |  | | | | | | |  
+**9** | 2 | :heavy_check_mark: | :construction: |  | | | | | | |  
 **10** | |  | |  | | | | | | |  
 **11** | |  | |  | | | | | | |  
 **12** | |  | |  | | | | | | |  

@@ -4,15 +4,15 @@ I'm taking Logic Programming this semester as part of the optional workload of t
  
 ## Exercises Checklist
 
-Class # | # of exercises | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | %
+Class # | # of exercises | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | Progress (%)
 :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---:
-**3** | 10 | :heavy_check_mark: | :heavy_exclamation_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_exclamation_mark: | :zap: | :zap: | :radio_button: | :heavy_exclamation_mark:
-**4** | 6 | :heavy_exclamation_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | |  | |  | | | | | | |  
-**5** | 6 | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :radio_button:	  | :heavy_check_mark: | :heavy_check_mark: |  | | | |  
-**6** | 10 |  | :heavy_check_mark: | :heavy_check_mark: | | :heavy_check_mark: | :heavy_check_mark: | :construction: | | :radio_button: | :heavy_check_mark: 
-**7** | 5 | :heavy_check_mark: | :heavy_check_mark: | :question: | :radio_button: | :construction: | | | | | |  
-**8** | 1 |  | |  | | | | | | |  
-**9** | 2 | :heavy_check_mark: | :construction: |  | | | | | | |  
+**3** | 10 | :heavy_check_mark: | :heavy_exclamation_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_exclamation_mark: | :zap: | :zap: | :radio_button: | :heavy_exclamation_mark: | | 65
+**4** | 6 | :heavy_exclamation_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | |  | |  | | 83   
+**5** | 6 | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :radio_button: | :heavy_check_mark: | :heavy_check_mark: | | | | | | 92  
+**6** | 10 |  | :heavy_check_mark: | :heavy_check_mark: | | :heavy_check_mark: | :heavy_check_mark: | :construction: | | :radio_button: | :heavy_check_mark: | | 60
+**7** | 5 | :heavy_check_mark: | :heavy_check_mark: | :question: | :radio_button: | :construction: | | | | | | | 60
+**8** | 1 | | | | | | | | | | | | 0  
+**9** | 2 | :heavy_check_mark: | :construction: | | | | | | | | | | 80
 **10** | |  | |  | | | | | | |  
 **11** | |  | |  | | | | | | |  
 **12** | |  | |  | | | | | | |  

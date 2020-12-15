@@ -12,10 +12,10 @@ size([_|T], N) :- size(T, N1), N is 1 + N1.
 even_size([]).
 even_size([_,_|T]) :- even_size(T).
 
-odd_size(L) :- not(even_size(L)).
+odd_size2(L) :- not(even_size(L)).
 
-odd_size2([_]).
-odd_size2([_|T]) :- even_size(T).
+odd_size([_]).
+odd_size([_|T]) :- even_size(T).
 
 conc([], L, L).
 conc([H|T1], L2, [H|T2]) :- conc(T1, L2, T2).
@@ -53,8 +53,13 @@ sublist3(S, L) :- suffix(Suffix, L), prefix(S, Suffix).
 sublist4(S, L) :- prefix(Prefix, L), suffix(S, Prefix).
 
 /*The next definition works, but it produces repeated permutations of the list.*/
-permute(P, [H|T]) :- insert(H, T, P).
+notsogood_permute(P, [H|T]) :- insert(H, T, P).
+notsogood_permute(P, [H|T]) :- permute(PT, T), insert(H, PT, P).
+
+/*The next definition works without producing repeated permutations of the list.*/
+permute([], []).
 permute(P, [H|T]) :- permute(PT, T), insert(H, PT, P).
+
 
 contains([H|_], H).
 contains([_|T], X) :- contains(T, X).

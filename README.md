@@ -6,7 +6,7 @@ I'm taking Logic Programming this semester as part of the optional workload of t
 
 Class # | # of exercises | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | Progress (%)
 :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---:
-**3** | 10 | :heavy_check_mark: | :heavy_exclamation_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_exclamation_mark: | :zap: | :zap: | :radio_button: | :heavy_exclamation_mark: | | 65
+**3** | 10 | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :radio_button: | :heavy_exclamation_mark: | | 65
 **4** | 6 | :heavy_exclamation_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | |  | |  | | 83   
 **5** | 6 | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :radio_button: | :heavy_check_mark: | :heavy_check_mark: | | | | | | 92  
 **6** | 10 |  | :heavy_check_mark: | :heavy_check_mark: | | :heavy_check_mark: | :heavy_check_mark: | :construction: | | :radio_button: | :heavy_check_mark: | | 60

@@ -108,7 +108,12 @@ L = [].
 
 mysubset3(_, []).
 mysubset3([H|T1], [H|T2]) :- mysubset3(T1, T2).
-mysubset3([H|T], T2) :- mysubset3(T, T2).
+mysubset3([_|T], T2) :- mysubset3(T, T2).
+
+/* This last version works properly, yay o/ */
+mysubset4([], []).
+mysubset4([H|T1], [H|T2]) :- mysubset4(T1, T2).
+mysubset4([_|T], T2) :- mysubset4(T, T2).
 
 max(X, Y, Y) :- Y >= X.
 max(X, Y, X) :- Y < X. 

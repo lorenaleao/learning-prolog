@@ -52,6 +52,15 @@ suffix(S, L) :- conc(_, S, L).
 sublist3(S, L) :- suffix(Suffix, L), prefix(S, Suffix).
 sublist4(S, L) :- prefix(Prefix, L), suffix(S, Prefix).
 
+del(X,[X|L],L).
+del(X,[Y|L1],[Y|L2]) :- del(X,L1,L2).
+
+/* If we add the clause del(X,[],[]), then we don't get the right answer:
+
+?- del(3, [1,2,3], L).                                                                              L = [1, 2] ;                                                                                        L = [1, 2, 3] ;                                                                                     false.
+
+*/
+
 /*The next definition works, but it produces repeated permutations of the list.*/
 notsogood_permute(P, [H|T]) :- insert(H, T, P).
 notsogood_permute(P, [H|T]) :- permute(PT, T), insert(H, PT, P).
@@ -73,6 +82,33 @@ mysubset(Set, [H|T]) :- contains(Set, H), mysubset(Set, T).
 mysubset2(_, []).
 mysubset2([H|T1], [H|T2]) :- mysubset2(T1, T2).
 mysubset2([H|T], Subset) :- not(contains(Subset, H)), mysubset2(T, Subset).
+
+/* Changing the last clause of mysubset2 by removing 'not(contains(Subset, H))' we obtain a predicate that generates all subsets of the given set with some repetitions. 
+
+Execution Example:
+
+[debug]  ?- mysubset3([1,2,3], L).
+L = [] ;
+L = [1] ;
+L = [1, 2] ;
+L = [1, 2, 3] ;
+L = [1, 2] ;
+L = [1] ;
+L = [1, 3] ;
+L = [1] ;
+L = [] ;
+L = [2] ;
+L = [2, 3] ;
+L = [2] ;
+L = [] ;
+L = [3] ;
+L = [].
+
+*/
+
+mysubset3(_, []).
+mysubset3([H|T1], [H|T2]) :- mysubset3(T1, T2).
+mysubset3([H|T], T2) :- mysubset3(T, T2).
 
 max(X, Y, Y) :- Y >= X.
 max(X, Y, X) :- Y < X. 

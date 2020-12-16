@@ -57,8 +57,10 @@ del(X,[Y|L1],[Y|L2]) :- del(X,L1,L2).
 
 /* If we add the clause del(X,[],[]), then we don't get the right answer:
 
-?- del(3, [1,2,3], L).                                                                              L = [1, 2] ;                                                                                        L = [1, 2, 3] ;                                                                                     false.
-
+?- del(3, [1,2,3], L).
+L = [1, 2] ;
+L = [1, 2, 3] ;
+false.
 */
 
 /*The next definition works, but it produces repeated permutations of the list.*/

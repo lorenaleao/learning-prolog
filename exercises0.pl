@@ -48,13 +48,17 @@ sublist1([], L).
 sublist1(S, L) :- conc(_, L2, L), conc(S, _, L2), S \= [].
 
 /* a sublist2 is the suffix for the prefix of a list.*/
-sublist2(S, L) :- conc(L1, _, L), conc(_, S, L1).
+sublist2([], L).
+sublist2(S, L) :- conc(L1, _, L), conc(_, S, L1), S \= [].
 
 prefix(P, L) :- conc(P, _, L).
 suffix(S, L) :- conc(_, S, L).
 
-sublist3(S, L) :- suffix(Suffix, L), prefix(S, Suffix).
-sublist4(S, L) :- prefix(Prefix, L), suffix(S, Prefix).
+sublist3([], L).
+sublist3(S, L) :- suffix(Suffix, L), prefix(S, Suffix), S \= [].
+
+sublist4([], L).  
+sublist4(S, L) :- prefix(Prefix, L), suffix(S, Prefix), S \= [].
 
 del(X,[X|L],L).
 del(X,[Y|L1],[Y|L2]) :- del(X,L1,L2).

@@ -175,7 +175,7 @@ subsum(List, Sum, Subset) :-
 interval(N1, N2, X) :- N1 < N2, X is N1 + 1, interval(X, N2, X1).
 interval(_, N2, X) :- X is N2-1, !.
 
-/* 2nd attempt -- it doesn't work completely yet */
+/* 2nd attempt -- it does not work completely yet */
 interval2(J,F,F):- 
     J is F - 1,
     !.
@@ -187,15 +187,29 @@ interval2(C,I,F):-
     N is I+1,
     interval2(C,N,F).
 
+/* 3rd attempt */
+interval3(F1, F, F1) :- 
+    F1 is F - 1,
+    !.
+interval3(I, F, I1) :-
+    I < F,    
+    I1 is I + 1.
+interval3(I, F, C) :-
+    I < F,
+    N is I + 1,
+    interval3(N, F, C).
 
-para1(F,F,F):- !.
-para1(I,I,F):- 
+for(F,F,F):- !.
+for(I,I,F):- 
     I < F.
-para1(C,I,F):-
+for(C,I,F):-
     I < F,
     N is I+1,
-    para(C,N,F).
+    for(C,N,F).
 
-
-/*para(C,1,5),write(C),nl,fail.*/
+for(Begin, End) :- 
+    for(C,Begin,End),
+    write(C), 
+    nl,
+    fail.
 

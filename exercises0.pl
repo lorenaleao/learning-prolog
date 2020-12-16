@@ -43,6 +43,10 @@ divide_list([E1,E2|T], [E1|T1], [E2|T2]) :- divide_list(T, T1, T2).
 /* a sublist is the prefix for the suffix of a list.*/
 sublist(S, L) :- conc(_, L2, L), conc(S, _, L2).
 
+/* sublist1 doesn't return multiple empty lists as solutions */ 
+sublist1([], L).
+sublist1(S, L) :- conc(_, L2, L), conc(S, _, L2), S \= [].
+
 /* a sublist2 is the suffix for the prefix of a list.*/
 sublist2(S, L) :- conc(L1, _, L), conc(_, S, L1).
 

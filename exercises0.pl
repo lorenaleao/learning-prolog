@@ -75,7 +75,6 @@ permute(P, [H|T]) :- permute(PT, T), insert(H, PT, P).
 contains([H|_], H).
 contains([_|T], X) :- contains(T, X).
 
-/*TODO: Improve this */
 /* this version of mysubset doesn't generate all the subsets of a given set */
 mysubset(_, []).
 mysubset(Set, [H|T]) :- contains(Set, H), mysubset(Set, T).  

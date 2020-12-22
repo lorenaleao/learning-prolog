@@ -6,6 +6,9 @@ list([]).
 list([_|_]).
 */
 
+numbers_list([]).
+numbers_list([H|T]) :- number(H), numbers_list(T). 
+
 size([], 0).
 size([_|T], N) :- size(T, N1), N is 1 + N1.
 
@@ -44,20 +47,20 @@ divide_list([E1,E2|T], [E1|T1], [E2|T2]) :- divide_list(T, T1, T2).
 sublist(S, L) :- conc(_, L2, L), conc(S, _, L2).
 
 /* sublist1 doesn't return multiple empty lists as solutions */ 
-sublist1([], L).
+sublist1([], _).
 sublist1(S, L) :- conc(_, L2, L), conc(S, _, L2), S \= [].
 
 /* a sublist2 is the suffix for the prefix of a list.*/
-sublist2([], L).
+sublist2([], _).
 sublist2(S, L) :- conc(L1, _, L), conc(_, S, L1), S \= [].
 
 prefix(P, L) :- conc(P, _, L).
 suffix(S, L) :- conc(_, S, L).
 
-sublist3([], L).
+sublist3([], _).
 sublist3(S, L) :- suffix(Suffix, L), prefix(S, Suffix), S \= [].
 
-sublist4([], L).  
+sublist4([], _).  
 sublist4(S, L) :- prefix(Prefix, L), suffix(S, Prefix), S \= [].
 
 del(X,[X|L],L).
@@ -163,17 +166,19 @@ list_max([H|T], Max) :- list_max(T, TMax), max(H, TMax, Max).
 list_sum([], 0).
 list_sum([H|T], Sum) :- list_sum(T, TSum), Sum is H + TSum.
 
-/* This is still not working */
 subsum(List, Sum, Subset) :- 
-    list(List), 
-    mysubset2(List, Subset), 
+    numbers_list(List), 
+    mysubset4(List, Subset), 
     list_sum(Subset, Sum).
 
-/*interval(N1, N2, X) :- N1 < N2, X is N1 + 1, interval(X, N2, _).*/
-
 /* 1st attempt */
-interval(N1, N2, X) :- N1 < N2, X is N1 + 1, interval(X, N2, X1).
-interval(_, N2, X) :- X is N2-1, !.
+interval(N1, N2, X) :- 
+    N1 < N2, 
+    X is N1 + 1, 
+    interval(X, N2, _).
+interval(_, N2, X) :- 
+    X is N2 - 1, 
+    !.
 
 /* 2nd attempt -- it does not work completely yet */
 interval2(J,F,F):- 
@@ -184,7 +189,7 @@ interval2(J,I,F):-
     I < F.
 interval2(C,I,F):-
     I < F,
-    N is I+1,
+    N is I + 1,
     interval2(C,N,F).
 
 /* 3rd attempt */
@@ -192,12 +197,25 @@ interval3(F1, F, F1) :-
     F1 is F - 1,
     !.
 interval3(I, F, I1) :-
-    I < F,    
+    I < F, 
     I1 is I + 1.
 interval3(I, F, C) :-
     I < F,
     N is I + 1,
     interval3(N, F, C).
+
+/* 4th attempt -- it works for all cases except when the interval is (N-1,N). In that case, we would like to return false since we want the numbers X that are in: N-1 < X < N, but this implementation returns N-1. */
+interval4(F1, F, F1) :- 
+    F1 is F - 1,
+    !.
+interval4(I, F, I1) :-
+    X is F - 1, 
+    I1 is I + 1, 
+    I1 < X.
+interval4(I, F, C) :-
+    I < F,
+    N is I + 1,
+    interval4(N, F, C).
 
 for(F,F,F):- !.
 for(I,I,F):- 
@@ -212,4 +230,14 @@ for(Begin, End) :-
     write(C), 
     nl,
     fail.
+
+/* Trying to figure it out how to define an if-then-else block */
+op(1000, fy, if).
+op(100, fx, then).
+op(900, fx, else).
+op(1200, xfx, :=).
+
+if(expr(>(Var1, Var2), then(:=(Var, Var1)), else(:=(Var, Var2))) :-
+    Var1 > Var2, 
+    Var = Var1.
 

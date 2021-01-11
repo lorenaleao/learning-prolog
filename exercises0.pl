@@ -232,12 +232,24 @@ for(Begin, End) :-
     fail.
 
 /* Trying to figure it out how to define an if-then-else block */
-op(1000, fy, if).
-op(100, fx, then).
-op(900, fx, else).
-op(1200, xfx, :=).
 
-if(expr(>(Var1, Var2), then(:=(Var, Var1)), else(:=(Var, Var2))) :-
-    Var1 > Var2, 
-    Var = Var1.
+then(X, Var) :-
+    X = Var.
+else(X, Var) :-
+    X = Var.
 
+if(Var1, Var2, X, Var3, Var4) :-
+    Var1 > Var2 -> then(X, Var3), !
+    ; 
+    else(X, Var4).
+
+/* The above predicate works:
+
+?- X = 2, Y = 3, Val2 is 2*X, Val4 is 4*X, if(Y, Val2,Z, Y, Val4).
+X = 2,
+Y = 3,
+Val2 = 4,
+Val4 = Z, Z = 8.
+
+However, this is not exactly what we want in order to define new operators I guess
+*/

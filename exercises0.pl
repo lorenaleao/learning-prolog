@@ -253,3 +253,51 @@ Val4 = Z, Z = 8.
 
 However, this is not exactly what we want in order to define new operators I guess
 */
+
+:=(Var, Value) :-
+    Var = Value.
+
+se(entao(Cond, senao(Cmd1, Cmd2))) :-
+	call(Cond) -> call(Cmd1), !;
+	call(Cmd2).
+
+/* :O it worked! :O 
+
+?- se(entao(2 < 3, senao(Z = 0, Z = 1))).
+Z = 0.
+
+?- se(entao(2 > 3, senao(Z = 0, Z = 1))).
+Z = 1.
+
+?- se(entao(2 == 3, senao(Z = 0, Z = 1))).
+Z = 1.
+
+Define the following operators in swipl:
+
+?- op(1000, fy, se).
+true.
+
+?- op(900, xfx, entao).
+true.
+
+?- op(800, xfx, senao).
+true.
+
+?- op(700, xfx, :=).
+true.
+
+and then you can use the predicate as follows:
+
+?- se 2 < 3 entao Z := 0 senao Z := 1.
+Z = 0.
+
+?- se 2 > 3 entao Z := 0 senao Z := 1.
+Z = 1.
+
+?- se 2 == 3 entao Z := 0 senao Z := 1.
+Z = 1.
+
+?- se 2 == 2 entao Z := 0 senao Z := 1.
+Z = 0.
+
+*/

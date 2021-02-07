@@ -183,6 +183,26 @@ find_all_letters_1 :-
 %%%%%%%%%%% Exercises %%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+/* simplify/2 
+ * ?- simplify(1+1, E).
+ * E = 2.
+ *
+ * ?- simplify(1+1+4+3, E).
+ * E = 9.
+ *
+ * ?- simplify(a+1+1+4+3, E).
+ * E = 9+a.
+ *
+ * ?- simplify(a+1+1+4+b+3, E).
+ * E = 9+(a+b).
+ *
+ * ?- simplify(a+1+1+4+b+o+3, E).
+ * E = 9+(a+(b+o)).
+ *
+ * ?- simplify(a+1+g+1+4+b+o+3, E).
+ * E = 9+(a+(g+(b+o))).
+ * */
+
 make_sum_expr([A], A) :- !.
 make_sum_expr([A, B], A + B) :- !.
 make_sum_expr([H|T], Expr) :-
@@ -193,18 +213,19 @@ make_sum_expr([H|T], Expr) :-
 
 simplify(A, Expr) :-
 	atom(A) -> Expr = A, !;
-	integer(A) -> Expr = A, !.
-simplify(Expr, SimplExpr) :-
-	Expr =.. [F|Args],
-	simplify_list(Args, [], VarList, 0, Sum),
-	append([Sum], VarList, ExprList),
-	make_sum_expr(ExprList, SimplExpr).
+	integer(A) -> Expr = A, !;
+	simplify(A, Expr, [], VarList, 0, Sum).
 
-simplify_list([], VarListAcc, VarListAcc, SumAcc, SumAcc) :- !.
-simplify_list([H|T], VarListAcc, VarList, SumAcc, Sum) :-
-	integer(H) -> SumAcc1 is SumAcc + H, simplify_list(T, VarListAcc, VarList, SumAcc1, Sum);
-	atom(H) -> append([H], VarListAcc, VarListAcc1), simplify_list(T, VarListAcc1, VarList, SumAcc, Sum);
-	simplify(H, SimplExpr), .
+simplify(H, SimplExpr, VarListAcc, VarList, SumAcc, Sum) :-
+	integer(H) -> Sum is SumAcc + H, VarList = VarListAcc, append([Sum], VarList, ExprList), make_sum_expr(ExprList, SimplExpr), !;
+	atom(H) -> Sum = SumAcc, append([H], VarListAcc, VarList), append([Sum], VarList, ExprList), make_sum_expr(ExprList, SimplExpr), !.
+simplify(Expr, SimplExpr, VarListAcc, VarList, SumAcc, Sum) :-
+	Expr =.. [F|Args],
+	simplify_list(Args, SimplExpr, VarListAcc, VarList, SumAcc, Sum).
+
+simplify_list([H,T], SimplExpr, VarListAcc, VarList, SumAcc, Sum) :-
+	integer(T) -> SumAcc1 is SumAcc + T, simplify(H, SimplExpr, VarListAcc, VarList, SumAcc1, Sum);
+	atom(T) -> append([T], VarListAcc, VarListAcc1), simplify(H, SimplExpr, VarListAcc1, VarList, SumAcc, Sum).
 
 % Fail attempts
 

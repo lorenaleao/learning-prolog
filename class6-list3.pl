@@ -183,6 +183,29 @@ find_all_letters_1 :-
 %%%%%%%%%%% Exercises %%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+make_sum_expr([A], A) :- !.
+make_sum_expr([A, B], A + B) :- !.
+make_sum_expr([H|T], Expr) :-
+	make_sum_expr(T, ExprT),
+	append([+],[H], E1),
+	append(E1, [ExprT], E2),
+	Expr =.. E2.
+
+simplify(A, Expr) :-
+	atom(A) -> Expr = A, !;
+	integer(A) -> Expr = A, !.
+simplify(Expr, SimplExpr) :-
+	Expr =.. [F|Args],
+	simplify_list(Args, [], VarList, 0, Sum),
+	append([Sum], VarList, ExprList),
+	make_sum_expr(ExprList, SimplExpr).
+
+simplify_list([], VarListAcc, VarListAcc, SumAcc, SumAcc) :- !.
+simplify_list([H|T], VarListAcc, VarList, SumAcc, Sum) :-
+	integer(H) -> SumAcc1 is SumAcc + H, simplify_list(T, VarListAcc, VarList, SumAcc1, Sum);
+	atom(H) -> append([H], VarListAcc, VarListAcc1), simplify_list(T, VarListAcc1, VarList, SumAcc, Sum);
+	simplify(H, SimplExpr), .
+
 % Fail attempts
 
 % insere_li(Item, [L|X]) :- X = [Item|Y].

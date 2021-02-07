@@ -111,6 +111,8 @@ p(3).
     % X = 1,
     % Y = 2.
 
+% Trying to guess a second time after having done this before in the last semester I guessed what the answers would be correctly! :D In the first one X can only be 1 or 2, because of the cut in the second predicate for p. In the second one, the values of X and Y will be all the combinations with 1 and 2, so: (1, 1), (1, 2), (2, 1), (2, 2). In the third one, X will be unified with 1 and only with 1 because of the cut, and Y will be unified with all possible values -- 1 and 2. This give the pairs of solutions: (1, 1) and (1, 2).
+
 class(Int, Class) :- 
     (
         Int > 0, Class = positivo;
@@ -181,23 +183,26 @@ separate3(Int, Pos, Neg) :-
 contains([H|_], H).
 contains([_|T], X) :- contains(T, X).
 
-% First (very bad) attempt 
+% First attempt 
 
-% included_candidates(Candidates, Excluded, Included) :-
-% (
-%     Excluded = [] ->
-%     Candidates = Included;
-%     (
-%         Candidates = [] ->
-%         Included = [];
-%         (
-%             Candidates = [H|C], 
-%             not(contains(Excluded, H)) ->
-%             Included = [H|I],
-%             included_candidates(C, Excluded, I)   
-%         )
-%     )
-% ).
+included_candidates(Candidates, Excluded, Included) :-
+ (
+     Excluded = [] ->
+     Candidates = Included;
+     (
+         Candidates = [] ->
+         Included = [];
+         (
+             Candidates = [H|C], 
+             not(contains(Excluded, H)) ->
+             Included = [H|I],
+             included_candidates(C, Excluded, I), !;
+	     (
+		     included_candidates(C, Excluded, Included)
+	     )
+         )
+     )
+ ).
 
 % Second attempt (that also doesn't exactly work)
 

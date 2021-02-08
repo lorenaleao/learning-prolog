@@ -226,7 +226,7 @@ simplify(A, Expr) :-
 	atom(A) -> Expr = A, !;
 	integer(A) -> Expr = A, !;
 	simplify(A, Expr, [], VarList, 0, Sum),
-	write(VarList), nl,
+	% write(VarList), nl,
 	retractall(var_count(_, _)),
 	abolish(var_count/2).
 

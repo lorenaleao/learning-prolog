@@ -1,4 +1,5 @@
 :-dynamic(letra/2).
+:-dynamic(var_count/2).
 
 conta2(_,[],0).
 conta2(A,[B|L],C):-
@@ -203,29 +204,69 @@ find_all_letters_1 :-
  * E = 9+(a+(g+(b+o))).
  * */
 
-make_sum_expr([A], A) :- !.
-make_sum_expr([A, B], A + B) :- !.
+make_sum_expr([A], E) :- 
+	(var_count(A, C) -> 
+	 	E = C*A
+	;
+		E = A
+	), !.
+make_sum_expr([A, B], E) :- 
+	make_sum_expr([A], E1),
+	make_sum_expr([B], E2), 
+	E = E1 + E2, !.
 make_sum_expr([H|T], Expr) :-
 	make_sum_expr(T, ExprT),
-	append([+],[H], E1),
-	append(E1, [ExprT], E2),
-	Expr =.. E2.
+	make_sum_expr([H], E1),
+	append([+],[E1], L1),
+	append(L1, [ExprT], L2),
+	Expr =.. L2.
 
 simplify(A, Expr) :-
+	assertz(var_count(1, 0)), % just add this procedure so we don't get an error in simplify_list
 	atom(A) -> Expr = A, !;
 	integer(A) -> Expr = A, !;
-	simplify(A, Expr, [], VarList, 0, Sum).
+	simplify(A, Expr, [], VarList, 0, Sum),
+	write(VarList), nl,
+	retractall(var_count(_, _)),
+	abolish(var_count/2).
 
 simplify(H, SimplExpr, VarListAcc, VarList, SumAcc, Sum) :-
 	integer(H) -> Sum is SumAcc + H, VarList = VarListAcc, append([Sum], VarList, ExprList), make_sum_expr(ExprList, SimplExpr), !;
-	atom(H) -> Sum = SumAcc, append([H], VarListAcc, VarList), append([Sum], VarList, ExprList), make_sum_expr(ExprList, SimplExpr), !.
+	atom(H) -> 
+		Sum = SumAcc,
+		(var_count(H, C) ->
+			C1 is C + 1,
+			retract(var_count(H, C)),
+			assertz(var_count(H, C1)),
+			append([Sum], VarListAcc, ExprList),
+			VarList = VarListAcc
+		;
+			assertz(var_count(H, 1)),
+			append([H], VarListAcc, VarList),
+			append([Sum], VarList, ExprList)
+		),
+		make_sum_expr(ExprList, SimplExpr), !.
+
 simplify(Expr, SimplExpr, VarListAcc, VarList, SumAcc, Sum) :-
 	Expr =.. [F|Args],
 	simplify_list(Args, SimplExpr, VarListAcc, VarList, SumAcc, Sum).
 
 simplify_list([H,T], SimplExpr, VarListAcc, VarList, SumAcc, Sum) :-
-	integer(T) -> SumAcc1 is SumAcc + T, simplify(H, SimplExpr, VarListAcc, VarList, SumAcc1, Sum);
-	atom(T) -> append([T], VarListAcc, VarListAcc1), simplify(H, SimplExpr, VarListAcc1, VarList, SumAcc, Sum).
+	integer(T) -> 
+		SumAcc1 is SumAcc + T, 
+		simplify(H, SimplExpr, VarListAcc, VarList, SumAcc1, Sum)
+	;
+		atom(T) -> 
+			(var_count(T, C) -> 
+				C1 is C + 1, 
+				retract(var_count(T, C)),
+				assertz(var_count(T, C1)), 
+				simplify(H, SimplExpr, VarListAcc, VarList, SumAcc, Sum)
+			;
+				assertz(var_count(T, 1)),
+				append([T], VarListAcc, VarListAcc1), 
+				simplify(H, SimplExpr, VarListAcc1, VarList, SumAcc, Sum)
+			).
 
 % Fail attempts
 

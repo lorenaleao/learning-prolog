@@ -80,7 +80,9 @@ dfs([R, LSubtree, RSubtree]) :-
     dfs(LSubtree),
     dfs(RSubtree).
 
-% the bfs is not working correctly yet
+% first version of bfs -- it doesn't work correctly
+
+/*
 bfs([]) :-
     write([]), nl.
 bfs([R, LSubtree, RSubtree | T]) :-
@@ -91,3 +93,68 @@ bfs([R, LSubtree, RSubtree | T]) :-
 bfs([L | T]) :-
     write(L), nl, 
     bfs(T).
+*/
+
+/* this one works! */
+bfs([R|Subtrees]) :-
+	write(R), nl,
+	b(Subtrees, [], _).
+
+/* b/3 simulates a loop so we don't need to do something like the following
+ * manually:
+ *
+ * ?- a([[2, [4,[8,[],[11]],[9]],[5]],[3,[6,[10],[]],[7]]], [], R).  
+ * 2
+ * 3
+ * R = [[4, [8, [], [11]], [9]], [5], [6, [10], []], [7]].
+ * 
+ * ?- R = [[2, [4,[8,[],[11]],[9]],[5]],[3,[6,[10],[]],[7]]], a(R, [], R1).
+ * 2
+ * 3
+ * R = [[2, [4, [8, [], [11]], [9]], [5]], [3, [6, [10], []], [7]]],
+ * R1 = [[4, [8, [], [11]], [9]], [5], [6, [10], []], [7]].
+ *
+ * ?- R1 = [[4, [8, [], [11]], [9]], [5], [6, [10], []], [7]], a(R1, [], R2).
+ * 4
+ * 5
+ * 6
+ * 7
+ * R1 = [[4, [8, [], [11]], [9]], [5], [6, [10], []], [7]],
+ * R2 = [[8, [], [11]], [9], [10], []].
+ *
+ * ?- R2 = [[8, [], [11]], [9], [10], []], a(R2, [], R3).
+ * 8
+ * 9
+ * 10
+ * []
+ * R2 = [[8, [], [11]], [9], [10], []],
+ * R3 = [[], [11]].
+ *
+ * ?- R3 = [[], [11]].
+ * R3 = [[], [11]].
+ *
+ * ?- R3 = [[], [11]], a(R3, [], R4).
+ * []
+ * 11
+ * R3 = [[], [11]],
+ * R4 = [].
+ *
+ */
+b([], _, _).
+b(L, Acc, R) :-
+	a(L, Acc, R),
+	b(R, Acc, _).
+
+/* a/3 writes in the screen the roots of the subtrees or the heads of the
+ * sublists and returns the rest of the sublists 
+ */
+a([], RestAcc, RestAcc). 
+a([L|R], RestAcc, Rest) :-
+	L = [H|T] ->
+		write(H), nl,
+		append(RestAcc, T, RestT),
+		a(R, RestT, Rest)
+	;
+	L = [] -> 
+		write(L), nl, 
+		a(R, RestAcc, Rest). 

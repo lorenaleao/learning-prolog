@@ -13,7 +13,7 @@ Class # | # of exercises | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | Progres
 **7** | 5 | :heavy_check_mark: | :heavy_check_mark: | :question: | :radio_button: | :construction: | | | | | | | 60
 **8** | 1 | :heavy_exclamation_mark: | | | | | | | | | | | 0  
 **9** | 2 | :heavy_check_mark: | :heavy_check_mark:  | | | | | | | | | | 100
-**10** | 2 | :construction: | :heavy_exclamation_mark: |  | | | | | | | | | 12.5
+**10** | 2 | :construction: | :heavy_exclamation_mark: |  | | | | | | | | | 25
 **11** | 4 | :heavy_exclamation_mark: | :heavy_exclamation_mark: |  :heavy_exclamation_mark: | :heavy_exclamation_mark: | | | | | | | | 0
 **12** | 3 |  :construction: | :heavy_exclamation_mark: | :construction: | | | | | | | | | 60
 **13** | |  | |  | | | | | | | | | 

@@ -16,7 +16,7 @@ Class # | # of exercises | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | Progres
 **10** | 2 | :construction: | :heavy_exclamation_mark: |  | | | | | | | | | 25
 **11** | 4 | :heavy_exclamation_mark: | :heavy_exclamation_mark: |  :heavy_exclamation_mark: | :heavy_exclamation_mark: | | | | | | | | 0
 **12** | 3 |  :construction: | :heavy_exclamation_mark: | :construction: | | | | | | | | | 60
-**13** | |  | |  | | | | | | | | | 
+**13** | 11 | :heavy_check_mark: | :heavy_check_mark: |  | | | | | | | | | 18
 **14** | |  | |  | | | | | | | | |
 **15** | |  | |  | | | | | | | | |
 **16** | |  | |  | | | | | | | | |

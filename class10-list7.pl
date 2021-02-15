@@ -12,3 +12,18 @@ dfs([H|T]) :-
     ;
         write(H), nl,
         dfs(T).
+
+aux_bfs([]) :- !.
+aux_bfs([[E|T0] | T1]) :-
+    write(E), nl,
+    append(T1, T0, NewT),
+    aux_bfs(NewT).
+aux_bfs([[E] | T]) :-
+    write(E), nl,
+    aux_bfs(T).
+aux_bfs([[] | T]) :-
+    write([]), nl,
+    aux_bfs(T).
+
+bfs(L) :-
+    aux_bfs([L]).

@@ -1,4 +1,4 @@
-$\forall$
+<!-- $\forall$
 $\neg$
 $\rightarrow$
 $\leftrightarrow$
@@ -12,7 +12,7 @@ $\land$
 $\forall$
 $\exists$
 $\in$
-$\models$
+$\models$ -->
 
 ### Class #13 - List #10
 
